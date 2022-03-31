@@ -2,6 +2,10 @@ import { AddNotes, EditNotes, RemoveNotes, SaveData } from "./notes";
 
 export const reducer = (state, action) => {
   switch (action.type) {
+    case "TITLE_INPUT":
+      return { ...state, title: action.payload };
+    case "TITLE_NOTES":
+      return { ...state, notes: action.payload };
     case "ADD_INTIAL_NOTES":
       return { ...state, data: [...action.payload] };
     case "ADD_NOTES":

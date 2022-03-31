@@ -19,13 +19,17 @@ export const AddNotes = (state, payload) => {
       console.log(error);
     }
   })(notes);
-  return { ...state, data: [...state.data, { ...notes, disabled: true }] };
+  return {
+    ...state,
+    data: [...state.data, { ...notes, disabled: true }],
+    title: "",
+    notes: "",
+  };
 };
 
 export const EditNotes = (state, payload) => {
   const { title, _id, notes } = payload;
   const { data } = state;
-  console.log(data);
   return {
     ...state,
     data: data.map((notesData) =>

@@ -34,31 +34,35 @@ export const NOTES = () => {
           />
           <hr />
           <h1>{disabled}</h1>
-          {disabled ? (
+          <div className="button-container">
+            {disabled ? (
+              <button
+                className="button button-primary"
+                onClick={() =>
+                  dispatch({ type: "TOGGLE_DISABLED", payload: { _id } })
+                }
+              >
+                EDIT
+              </button>
+            ) : (
+              <button
+                className="button button-primary"
+                onClick={() =>
+                  dispatch({ type: "SAVE_TOGGLE_DISABLED", payload: { _id } })
+                }
+              >
+                SAVE
+              </button>
+            )}
             <button
-              className="button button-primary"
+              className="button button-secondary"
               onClick={() =>
-                dispatch({ type: "TOGGLE_DISABLED", payload: { _id } })
+                dispatch({ type: "REMOVE_NOTES", payload: { _id } })
               }
             >
-              EDIT
+              REMOVE
             </button>
-          ) : (
-            <button
-              className="button button-primary"
-              onClick={() =>
-                dispatch({ type: "SAVE_TOGGLE_DISABLED", payload: { _id } })
-              }
-            >
-              SAVE
-            </button>
-          )}
-          <button
-            className="button button-secondary"
-            onClick={() => dispatch({ type: "REMOVE_NOTES", payload: { _id } })}
-          >
-            REMOVE
-          </button>
+          </div>
         </div>
       );
     })

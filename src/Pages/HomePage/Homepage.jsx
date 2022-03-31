@@ -8,7 +8,9 @@ export const HomePage = () => {
       <Header />
       <Input />
       <h2>Notes</h2>
-      <NOTES/>
+      <div className="notes-container">
+        <NOTES />
+      </div>
     </main>
   );
 };

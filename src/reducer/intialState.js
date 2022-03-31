@@ -1,1 +1,1 @@
-export const intialState = { data: [] ,title:""};
+export const intialState = { data: [] ,title:"",notes:""};
