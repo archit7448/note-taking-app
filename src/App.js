@@ -8,14 +8,6 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route
-          path="/"
-          element={
-            <RequireAuth>
-              <SignIn />
-            </RequireAuth>
-          }
-        ></Route>
         <Route path="/homepage" element={<HomePage />} />
       </Routes>
     </div>

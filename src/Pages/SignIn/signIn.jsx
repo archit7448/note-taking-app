@@ -8,7 +8,10 @@ export const SignIn = () => {
   const [password, setPassword] = useState("");
   const loginHandler = async (loginDetails) => {
     try {
-      const response = await axios.post("/api/auth/login", loginDetails);
+      const response = await axios.post("/api/auth/login", {
+        email: "adarshbalika@gmail.com",
+        password: "adarshBalika123",
+      });
       localStorage.setItem("token", response.data.encodedToken);
     } catch (error) {
       console.log(error);
