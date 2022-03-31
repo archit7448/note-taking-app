@@ -1,0 +1,10 @@
+.Mindify-logo {
+  height: 5rem;
+}
+.logo-wrapper {
+  display: flex;
+}
+.notes-container {
+  display: flex;
+  flex-wrap: wrap;
+}
