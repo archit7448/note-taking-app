@@ -26,6 +26,7 @@ export const Input = () => {
       <hr />
       <button
         className="button button-primary"
+        disabled={title.length === 0 || notes.length === 0}
         onClick={() =>
           dispatch({ type: "ADD_NOTES", payload: { title, notes } })
         }
