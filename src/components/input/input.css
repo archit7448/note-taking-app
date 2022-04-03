@@ -45,3 +45,7 @@ input:disabled {
 textarea:disabled {
   background-color: white;
 }
+.archived-button{
+  background-color: white;
+  font-size: 3rem;
+}

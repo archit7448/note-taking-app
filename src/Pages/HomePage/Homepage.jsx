@@ -7,7 +7,7 @@ export const HomePage = () => {
     <main>
       <Header />
       <Input />
-      <h2>Notes</h2>
+      <h2>NOTES</h2>
       <div className="notes-container">
         <NOTES />
       </div>

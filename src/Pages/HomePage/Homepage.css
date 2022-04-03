@@ -8,3 +8,6 @@
   display: flex;
   flex-wrap: wrap;
 }
+.archived-container{
+  margin-top:10rem ;
+}

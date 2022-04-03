@@ -1,10 +1,10 @@
 import { useData } from "../../context/data";
-import { Link } from "react-router-dom";
-export const NOTES = () => {
+
+export const InputArchived = () => {
   const { state, dispatch } = useData();
-  const { data, archived } = state;
-  return data.length > 0 ? (
-    data.map((notesData) => {
+  const { archived } = state;
+  return archived.length > 0 ? (
+    archived.map((notesData) => {
       const { _id, title, notes, disabled } = notesData;
       return (
         <div className="CardDesign" key={_id}>
@@ -15,7 +15,7 @@ export const NOTES = () => {
             disabled={disabled}
             onChange={(event) =>
               dispatch({
-                type: "EDIT_NOTES",
+                type: "EDIT_ARCHIVED",
                 payload: { title: event.target.value, _id, notes },
               })
             }
@@ -28,19 +28,21 @@ export const NOTES = () => {
             disabled={disabled}
             onChange={(event) =>
               dispatch({
-                type: "EDIT_NOTES",
-                payload: { title, notes: event.target.value, _id },
+                type: "EDIT_ARCHIVED",
+                payload: { notes: event.target.value, _id, title },
               })
             }
           />
           <hr />
-          <h1>{disabled}</h1>
           <div className="button-container">
             {disabled ? (
               <button
                 className="button button-primary"
                 onClick={() =>
-                  dispatch({ type: "TOGGLE_DISABLED", payload: { _id } })
+                  dispatch({
+                    type: "TOGGLE_DISABLED_ARCHIVED",
+                    payload: { _id },
+                  })
                 }
               >
                 EDIT
@@ -49,7 +51,7 @@ export const NOTES = () => {
               <button
                 className="button button-primary"
                 onClick={() =>
-                  dispatch({ type: "SAVE_TOGGLE_DISABLED", payload: { _id } })
+                  dispatch({ type: "SAVE_ARCHIVED_TOGGLE", payload: { _id } })
                 }
               >
                 SAVE
@@ -58,24 +60,18 @@ export const NOTES = () => {
             <button
               className="button button-secondary"
               onClick={() =>
-                dispatch({ type: "REMOVE_NOTES", payload: { _id } })
+                dispatch({ type: "REMOVE_ARCHIVED", payload: { _id } })
               }
             >
               REMOVE
-            </button>
-            <button
-              className="button button-secondary"
-              onClick={() =>
-                dispatch({ type: "ADD_TO_ARCHIVED", payload: notesData })
-              }
-            >
-              Archived
             </button>
           </div>
         </div>
       );
     })
   ) : (
-    <div></div>
+    <div>
+      <h1 className="text-xl">NO ARCHIVED NOTES</h1>
+    </div>
   );
 };

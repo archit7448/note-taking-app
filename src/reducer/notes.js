@@ -43,7 +43,6 @@ export const EditNotes = (state, payload) => {
 export const SaveData = (state, payload) => {
   const { _id } = payload;
   const { data } = state;
-  console.log(data);
   const token = localStorage.getItem("token");
   const notesBackend = data.find((notes) => notes._id === _id);
   (async (id, notes) => {
@@ -57,7 +56,6 @@ export const SaveData = (state, payload) => {
           },
         }
       );
-      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -90,3 +88,16 @@ export const RemoveNotes = (state, payload) => {
     data: data.filter((notes) => notes._id !== _id),
   };
 };
+
+export const ToggleDisableNotes = (state, payload) => {
+  const { data } = state;
+  const { _id } = payload;
+  return {
+    ...state,
+    data: data.map((notes) =>
+      notes._id === _id ? { ...notes, disabled: false } : notes
+    ),
+  };
+};
+
+
