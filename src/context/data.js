@@ -21,9 +21,24 @@ const DataProvider = ({ children }) => {
           console.log(error);
         }
       })();
-  },[]);
+  }, []);
 
-  
+  useEffect(() => {
+    token !== null &&
+      (async () => {
+        try {
+          let response = await axios.get("/api/archives", {
+            headers: {
+              authorization: token,
+            },
+          });
+          dispatch({ type: "ADD_INTIAL_ARCHIVES", payload: response.data.archives });
+        } catch (error) {
+          console.log(error);
+        }
+      })();
+  }, []);
+
   return (
     <DataContext.Provider value={{ state, dispatch }}>
       {children}

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useData } from "../../context/data";
 import "./input.css";
 export const Input = () => {

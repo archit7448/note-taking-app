@@ -1,4 +1,17 @@
-import { AddNotes, EditNotes, RemoveNotes, SaveData } from "./notes";
+import {
+  AddNotes,
+  EditNotes,
+  RemoveNotes,
+  SaveData,
+  ToggleDisableNotes,
+} from "./notes";
+import {
+  AddArchived,
+  EditArchived,
+  RemoveArchived,
+  ToggleDisableArchived,
+  SaveArchived,
+} from "./archived";
 
 export const reducer = (state, action) => {
   switch (action.type) {
@@ -13,18 +26,23 @@ export const reducer = (state, action) => {
     case "EDIT_NOTES":
       return EditNotes(state, action.payload);
     case "TOGGLE_DISABLED":
-      const { data } = state;
-      const { _id } = action.payload;
-      return {
-        ...state,
-        data: data.map((notes) =>
-          notes._id === _id ? { ...notes, disabled: false } : notes
-        ),
-      };
+      return ToggleDisableNotes(state, action.payload);
     case "SAVE_TOGGLE_DISABLED":
       return SaveData(state, action.payload);
     case "REMOVE_NOTES":
       return RemoveNotes(state, action.payload);
+    case "ADD_INTIAL_ARCHIVES":
+      return { ...state, archived: [...action.payload] };
+    case "ADD_TO_ARCHIVED":
+      return AddArchived(state, action.payload);
+    case "REMOVE_ARCHIVED":
+      return RemoveArchived(state, action.payload);
+    case "TOGGLE_DISABLED_ARCHIVED":
+      return ToggleDisableArchived(state, action.payload);
+    case "EDIT_ARCHIVED":
+      return EditArchived(state, action.payload);
+    case "SAVE_ARCHIVED_TOGGLE":
+      return SaveArchived(state, action.payload);
     default:
       return { state };
   }
