@@ -25,6 +25,14 @@ export const Header = () => {
         >
           ARCHIVED
         </NavLink>
+        <NavLink
+          to="/trash"
+          className={({ isActive }) =>
+            isActive ? "notes-header-heading-active" : "notes-header-heading"
+          }
+        >
+          TRASH
+        </NavLink>
       </div>
     </header>
   );

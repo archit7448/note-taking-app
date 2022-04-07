@@ -11,3 +11,9 @@
 .archived-container{
   margin-top:10rem ;
 }
+.filters{
+  border: 1px solid var(--color-black);
+  margin:3rem;
+  font-size: 1.6rem;
+  margin-left:auto ;
+}

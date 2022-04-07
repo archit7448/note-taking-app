@@ -1,1 +1,11 @@
-export const intialState = { data: [] ,title:"",notes:"",archived:[]};
+export const intialState = {
+  data: [],
+  title: "",
+  notes: "",
+  archived: [],
+  trash: [],
+  colors: "",
+  tag: "",
+  tagFilter: "",
+  tagArray: [],
+};

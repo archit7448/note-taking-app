@@ -5,14 +5,14 @@ export const InputArchived = () => {
   const { archived } = state;
   return archived.length > 0 ? (
     archived.map((notesData) => {
-      const { _id, title, notes, disabled } = notesData;
+      const { _id, title, notes, disabled, colors } = notesData;
       return (
-        <div className="CardDesign" key={_id}>
+        <div className={`CardDesign ${colors}`} key={_id}>
           <input
             type="text"
-            placeholder="title"
             value={title}
             disabled={disabled}
+            className={colors}
             onChange={(event) =>
               dispatch({
                 type: "EDIT_ARCHIVED",
@@ -23,9 +23,9 @@ export const InputArchived = () => {
           <hr />
           <textarea
             type="text"
-            placeholder="notes..."
             value={notes}
             disabled={disabled}
+            className={colors}
             onChange={(event) =>
               dispatch({
                 type: "EDIT_ARCHIVED",
@@ -60,7 +60,7 @@ export const InputArchived = () => {
             <button
               className="button button-secondary"
               onClick={() =>
-                dispatch({ type: "REMOVE_ARCHIVED", payload: { _id } })
+                dispatch({ type: "REMOVE_ARCHIVED", payload: notesData })
               }
             >
               REMOVE
