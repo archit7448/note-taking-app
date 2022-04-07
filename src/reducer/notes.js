@@ -4,6 +4,7 @@ import { v4 as uuid } from "uuid";
 export const AddNotes = (state, payload) => {
   const token = localStorage.getItem("token");
   const notes = { _id: uuid(), ...payload };
+  const { tag, _id } = notes;
   (async (notes) => {
     try {
       const response = await axios.post(
@@ -24,6 +25,11 @@ export const AddNotes = (state, payload) => {
     data: [...state.data, { ...notes, disabled: true }],
     title: "",
     notes: "",
+    colors: "",
+    tag: "",
+    tagArray: state.tagArray.find((notesTag) => notesTag.tag === tag)
+      ? [...state.tagArray]
+      : [...state.tagArray, { tag, _id }],
   };
 };
 
@@ -69,8 +75,8 @@ export const SaveData = (state, payload) => {
 };
 
 export const RemoveNotes = (state, payload) => {
-  const { _id } = payload;
-  const { data } = state;
+  const { _id, tag } = payload;
+  const { data, trash, tagArray } = state;
   const token = localStorage.getItem("token");
   (async (id) => {
     try {
@@ -86,6 +92,14 @@ export const RemoveNotes = (state, payload) => {
   return {
     ...state,
     data: data.filter((notes) => notes._id !== _id),
+    trash: [...trash, payload],
+    tagArray:
+      data.reduce((acc, curr) => {
+        curr.tag === tag ? (acc = acc + 1) : acc;
+        return acc;
+      }, 0) > 1
+        ? [...tagArray]
+        : tagArray.filter((note) => note.tag !== tag),
   };
 };
 
@@ -99,5 +113,3 @@ export const ToggleDisableNotes = (state, payload) => {
     ),
   };
 };
-
-

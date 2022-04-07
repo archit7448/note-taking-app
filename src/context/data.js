@@ -8,6 +8,19 @@ const DataProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, intialState);
   const token = localStorage.getItem("token");
   useEffect(() => {
+    (async () => {
+      try {
+        const response = await axios.post("/api/auth/login", {
+          email: "adarshbalika@gmail.com",
+          password: "adarshBalika123",
+        });
+        localStorage.setItem("token", response.data.encodedToken);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
+  useEffect(() => {
     token !== null &&
       (async () => {
         try {
@@ -21,7 +34,7 @@ const DataProvider = ({ children }) => {
           console.log(error);
         }
       })();
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     token !== null &&
@@ -32,12 +45,15 @@ const DataProvider = ({ children }) => {
               authorization: token,
             },
           });
-          dispatch({ type: "ADD_INTIAL_ARCHIVES", payload: response.data.archives });
+          dispatch({
+            type: "ADD_INTIAL_ARCHIVES",
+            payload: response.data.archives,
+          });
         } catch (error) {
           console.log(error);
         }
       })();
-  }, []);
+  }, [token]);
 
   return (
     <DataContext.Provider value={{ state, dispatch }}>

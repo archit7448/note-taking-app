@@ -1,18 +1,20 @@
 import { useData } from "../../context/data";
-import { Link } from "react-router-dom";
+import { FilterTag } from "../../reducer/filter";
 export const NOTES = () => {
   const { state, dispatch } = useData();
-  const { data, archived } = state;
+  const { data, tagFilter } = state;
+  const filtredData = FilterTag(data, tagFilter);
   return data.length > 0 ? (
-    data.map((notesData) => {
-      const { _id, title, notes, disabled } = notesData;
+    filtredData.map((notesData) => {
+      const { _id, title, notes, disabled, colors, tag } = notesData;
       return (
-        <div className="CardDesign" key={_id}>
+        <div className={`CardDesign ${colors}`} key={_id}>
           <input
             type="text"
             placeholder="title"
             value={title}
             disabled={disabled}
+            className={colors}
             onChange={(event) =>
               dispatch({
                 type: "EDIT_NOTES",
@@ -26,6 +28,7 @@ export const NOTES = () => {
             placeholder="notes..."
             value={notes}
             disabled={disabled}
+            className={colors}
             onChange={(event) =>
               dispatch({
                 type: "EDIT_NOTES",
@@ -33,6 +36,7 @@ export const NOTES = () => {
               })
             }
           />
+          {tag.length > 0 && <h3 className="tag-container">{tag}</h3>}
           <hr />
           <h1>{disabled}</h1>
           <div className="button-container">
@@ -58,7 +62,7 @@ export const NOTES = () => {
             <button
               className="button button-secondary"
               onClick={() =>
-                dispatch({ type: "REMOVE_NOTES", payload: { _id } })
+                dispatch({ type: "REMOVE_NOTES", payload: notesData })
               }
             >
               REMOVE

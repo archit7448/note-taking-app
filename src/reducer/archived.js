@@ -1,8 +1,8 @@
 import axios from "axios";
 export const AddArchived = (state, notes) => {
   const token = localStorage.getItem("token");
-  const { data } = state;
-  const { _id } = notes;
+  const { data, tagArray } = state;
+  const { _id, tag } = notes;
   (async (id, notes) => {
     try {
       const response = await axios.post(
@@ -33,12 +33,19 @@ export const AddArchived = (state, notes) => {
     ...state,
     data: data.filter((notes) => notes._id !== _id),
     archived: [...state.archived, { ...notes }],
+    tagArray:
+      data.reduce((acc, curr) => {
+        curr.tag === tag ? (acc = acc + 1) : acc;
+        return acc;
+      }, 0) > 1
+        ? [...tagArray]
+        : tagArray.filter((note) => note.tag !== tag),
   };
 };
 
 export const RemoveArchived = (state, payload) => {
   const { _id } = payload;
-  const { archived } = state;
+  const { archived, trash } = state;
   const token = localStorage.getItem("token");
   (async (id) => {
     try {
@@ -54,6 +61,7 @@ export const RemoveArchived = (state, payload) => {
   return {
     ...state,
     archived: archived.filter((notes) => notes._id !== _id),
+    trash: [...trash, payload],
   };
 };
 

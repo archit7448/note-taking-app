@@ -12,6 +12,7 @@ import {
   ToggleDisableArchived,
   SaveArchived,
 } from "./archived";
+import { RestoreNotes, TrashDelete } from "./trash";
 
 export const reducer = (state, action) => {
   switch (action.type) {
@@ -19,6 +20,8 @@ export const reducer = (state, action) => {
       return { ...state, title: action.payload };
     case "TITLE_NOTES":
       return { ...state, notes: action.payload };
+    case "ADD_TAG":
+      return { ...state, tag: action.payload };
     case "ADD_INTIAL_NOTES":
       return { ...state, data: [...action.payload] };
     case "ADD_NOTES":
@@ -43,7 +46,15 @@ export const reducer = (state, action) => {
       return EditArchived(state, action.payload);
     case "SAVE_ARCHIVED_TOGGLE":
       return SaveArchived(state, action.payload);
+    case "ADD_COLOR":
+      return { ...state, colors: action.payload };
+    case "ADD_FILTERS":
+      return { ...state, tagFilter: action.payload };
+    case "TRASH_RESTORE":
+      return RestoreNotes(state, action.payload);
+    case "DELETE_TRASH":
+      return TrashDelete(state, action.payload);
     default:
-      return { state };
+      return { ...state };
   }
 };
