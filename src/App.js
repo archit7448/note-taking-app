@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import { ARCHIVED } from "./Pages/archived/archived";
 import { TrashPage } from "./Pages/Trash/TrashPage";
 import { SignIn } from "./Pages/SignIn/signIn";
+import { LabelPage } from "./Pages/labelPage/labelPage";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/archived" element={<ARCHIVED />} />
         <Route path="/trash" element={<TrashPage />} />
+        <Route path="/label" element={<LabelPage />} />
       </Routes>
     </div>
   );
