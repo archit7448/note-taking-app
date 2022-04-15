@@ -1,12 +1,13 @@
 import { Header } from "../../components/Header/Header";
 import { InputArchived } from "../../components/inputArchived/input";
-import { useData } from "../../context/data";
+import { Sidebar } from "../../components/sidebar/sidebar";
 
 export const ARCHIVED = () => {
   return (
-    <main>
+    <main className="display-grid">
       <Header />
-      <section>
+      <Sidebar />
+      <section className="section">
         <h1 className="text-grey text-center">ARCHIVED</h1>
         <div>
           <InputArchived />
