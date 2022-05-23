@@ -1,5 +1,4 @@
 import { Header } from "../../components/Header/Header";
-import { InputTrash } from "../../components/inputTrash/InputTrash";
 import { Sidebar } from "../../components/sidebar/sidebar";
 import { useData } from "../../context/data";
 

@@ -1,14 +1,15 @@
 import axios from "axios";
-import { v4 as uuid } from "uuid";
+const token = localStorage.getItem("token");
 
-export const AddNotes = (state, payload) => {
-  const token = localStorage.getItem("token");
-  const notes = { _id: uuid(), ...payload };
-  const { tag, _id } = notes;
-  (async (notes) => {
+export const AddNotes = (state, action) => {
+  return { ...state, notes: [...action.payload], notesData: {} };
+};
+
+export const AddNotesToDataBase = (notes, dispatch) => {
+  (async () => {
     try {
       const response = await axios.post(
-        "/api/notes",
+        `/api/notes/`,
         { note: notes },
         {
           headers: {
@@ -16,45 +17,29 @@ export const AddNotes = (state, payload) => {
           },
         }
       );
+      dispatch({ type: "ADD_NOTES", payload: response.data.notes });
     } catch (error) {
       console.log(error);
     }
-  })(notes);
-  return {
-    ...state,
-    data: [...state.data, { ...notes, disabled: true }],
-    title: "",
-    notes: "",
-    colors: "",
-    tag: "",
-    tagArray: state.tagArray.find((notesTag) => notesTag.tag === tag)
-      ? [...state.tagArray]
-      : [...state.tagArray, { tag, _id }],
-  };
+  })();
 };
 
-export const EditNotes = (state, payload) => {
-  const { title, _id, notes } = payload;
-  const { data } = state;
+export const ToggleEdit = (state, action) => {
   return {
     ...state,
-    data: data.map((notesData) =>
-      notesData._id === _id
-        ? { ...notesData, title: title, notes: notes }
-        : notesData
+    notes: state.notes.map((notesEach) =>
+      notesEach._id === action.payload._id
+        ? { ...notesEach, disabled: false }
+        : notesEach
     ),
   };
 };
 
-export const SaveData = (state, payload) => {
-  const { _id } = payload;
-  const { data } = state;
-  const token = localStorage.getItem("token");
-  const notesBackend = data.find((notes) => notes._id === _id);
-  (async (id, notes) => {
+export const UpdateDataBase = (notes, dispatch, id) => {
+  (async () => {
     try {
       const response = await axios.post(
-        `/api/notes/:${id}`,
+        `/api/notes/${id}`,
         { note: notes },
         {
           headers: {
@@ -62,54 +47,24 @@ export const SaveData = (state, payload) => {
           },
         }
       );
+      dispatch({ type: "ADD_NOTES", payload: response.data.notes });
     } catch (error) {
       console.log(error);
     }
-  })(_id, notesBackend);
-  return {
-    ...state,
-    data: data.map((notes) =>
-      notes._id === _id ? { ...notes, disabled: true } : notes
-    ),
-  };
+  })();
 };
 
-export const RemoveNotes = (state, payload) => {
-  const { _id, tag } = payload;
-  const { data, trash, tagArray } = state;
-  const token = localStorage.getItem("token");
-  (async (id) => {
+export const DeleteNotes = (dispatch, id) => {
+  (async () => {
     try {
-      const response = await axios.delete(`/api/notes/:${id}`, {
+      const response = await axios.delete(`/api/notes/${id}`, {
         headers: {
           authorization: token,
         },
       });
+      dispatch({ type: "ADD_NOTES", payload: response.data.notes });
     } catch (error) {
       console.log(error);
     }
-  })(_id);
-  return {
-    ...state,
-    data: data.filter((notes) => notes._id !== _id),
-    trash: [...trash, payload],
-    tagArray:
-      data.reduce((acc, curr) => {
-        curr.tag === tag ? (acc = acc + 1) : acc;
-        return acc;
-      }, 0) > 1
-        ? [...tagArray]
-        : tagArray.filter((note) => note.tag !== tag),
-  };
-};
-
-export const ToggleDisableNotes = (state, payload) => {
-  const { data } = state;
-  const { _id } = payload;
-  return {
-    ...state,
-    data: data.map((notes) =>
-      notes._id === _id ? { ...notes, disabled: false } : notes
-    ),
-  };
+  })();
 };
