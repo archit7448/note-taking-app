@@ -1,5 +1,4 @@
 import { Header } from "../../components/Header/Header";
-import { InputArchived } from "../../components/inputArchived/input";
 import { Sidebar } from "../../components/sidebar/sidebar";
 
 export const ARCHIVED = () => {

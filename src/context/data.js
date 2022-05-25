@@ -1,11 +1,11 @@
 import axios from "axios";
 import { createContext, useReducer, useContext, useEffect } from "react";
-import { intialState } from "../reducer/intialState";
-import { reducer } from "../reducer/reducer";
+import { IntialState } from "../reducer/reducer";
+import { ReducerFunc } from "../reducer/reducer";
 const DataContext = createContext(null);
 
 const DataProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, intialState);
+  const [state, dispatch] = useReducer(ReducerFunc, IntialState);
   const token = localStorage.getItem("token");
   useEffect(() => {
     (async () => {
@@ -29,7 +29,7 @@ const DataProvider = ({ children }) => {
               authorization: token,
             },
           });
-          dispatch({ type: "ADD_INTIAL_NOTES", payload: response.data.notes });
+          dispatch({ type: "ADD_NOTES", payload: response.data.notes });
         } catch (error) {
           console.log(error);
         }
@@ -45,10 +45,10 @@ const DataProvider = ({ children }) => {
               authorization: token,
             },
           });
-          dispatch({
-            type: "ADD_INTIAL_ARCHIVES",
-            payload: response.data.archives,
-          });
+          // dispatch({
+          //   type: "ADD_INTIAL_ARCHIVES",
+          //   payload: response.data.archives,
+          // });
         } catch (error) {
           console.log(error);
         }
@@ -56,7 +56,15 @@ const DataProvider = ({ children }) => {
   }, [token]);
 
   return (
-    <DataContext.Provider value={{ state, dispatch }}>
+    <DataContext.Provider
+      value={{
+        notes: state.notes,
+        colors: state.colors,
+        dispatch,
+        colorArray: state.colorArray,
+        quill: state.quill,
+      }}
+    >
       {children}
     </DataContext.Provider>
   );

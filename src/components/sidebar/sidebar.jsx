@@ -1,4 +1,4 @@
-import { AiOutlineHome } from "react-icons/ai";
+import { AiOutlineHome, AiOutlinePlusCircle } from "react-icons/ai";
 import { MdLabelOutline } from "react-icons/md";
 import { BsArchive, BsTrash } from "react-icons/bs";
 import { NavLink } from "react-router-dom";
