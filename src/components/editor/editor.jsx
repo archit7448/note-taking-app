@@ -28,12 +28,10 @@ export const formats = [
 export const Editor = ({ prop }) => {
   const { quill, quillRef } = useQuill({ modules, formats });
   const { dispatch } = useData();
-  const { contentPassed, disabledPassed, notesPassed } = prop;
+  const { contentPassed, disabledPassed} = prop;
   useEffect(() => {
     if (quill && disabledPassed) {
-      const { ops } = contentPassed;
-      console.log(ops);
-      quill?.setContents(contentPassed);
+      quill.setContents(contentPassed);
     }
   }, [quill]);
 

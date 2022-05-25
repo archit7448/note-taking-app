@@ -56,8 +56,8 @@ export const Input = ({ prop }) => {
     UpdateDataBase(
       {
         title,
-        notes: quill?.root?.innerHTML,
-        content: quill?.getContents(),
+        notes: quill.root.innerHTML,
+        content: quill.getContents(),
         tag,
         priorty,
         colors,

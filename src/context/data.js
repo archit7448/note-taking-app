@@ -29,7 +29,6 @@ const DataProvider = ({ children }) => {
               authorization: token,
             },
           });
-          console.log(response.data.notes);
           dispatch({ type: "ADD_NOTES", payload: response.data.notes });
         } catch (error) {
           console.log(error);
