@@ -54,7 +54,7 @@ export const UpdateDataBase = (notes, dispatch, id) => {
   })();
 };
 
-export const DeleteNotes = (dispatch, id) => {
+export const DeleteNotes = (dispatch, id, notes) => {
   (async () => {
     try {
       const response = await axios.delete(`/api/notes/${id}`, {
@@ -62,7 +62,10 @@ export const DeleteNotes = (dispatch, id) => {
           authorization: token,
         },
       });
-      dispatch({ type: "ADD_NOTES", payload: response.data.notes });
+      dispatch({
+        type: "ADD_NOTES_TRASH",
+        payload: { notes: response.data.notes, trashLoad: notes },
+      });
     } catch (error) {
       console.log(error);
     }

@@ -1,5 +1,6 @@
 import { AddNotes, ToggleEdit } from "./notes";
-
+import { AddArchived, UpdateArchived } from "./archived";
+import { AddTrash, RemoveTrash, RestoreNotes, RestoreTrash } from "./trash";
 const AddColors = (state, action) => {
   return { ...state, colors: action.payload };
 };
@@ -12,6 +13,11 @@ const reducer = {
   ADD_COLOR: AddColors,
   ADD_NOTES_DATA: AddNotesData,
   TOGGLE_DISABLED: ToggleEdit,
+  ADD_ARCHIVED: AddArchived,
+  UPDATE_ARCHIVED: UpdateArchived,
+  ADD_NOTES_TRASH: AddTrash,
+  REMOVE_TRASH: RemoveTrash,
+  RESTORE_NOTES: RestoreNotes,
 };
 
 export const ReducerFunc = (state, action) => {
@@ -30,4 +36,6 @@ export const IntialState = {
     "color-six",
   ],
   quill: {},
+  archived: [],
+  trash: [],
 };

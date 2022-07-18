@@ -1,5 +1,5 @@
-.text-editor-wrapper{
-  width: 100vh;
+.text-editor-wrapper {
+  width: 45rem;
   height: 30vh;
   display: flex;
   flex-direction: column;
@@ -7,7 +7,7 @@
   justify-content: center;
 }
 
-.text-editor{
-    width: 58.2rem;
-    border: 2px solid black;
+.text-editor {
+  width: 45rem;
+  border: 2px solid black;
 }

@@ -3,6 +3,8 @@ import { useData } from "../../context/data";
 import { Header, Input, Notes, Sidebar } from "../../components/index";
 export const HomePage = () => {
   const { notes } = useData();
+
+  
   return (
     <main className="display-grid">
       <Header />

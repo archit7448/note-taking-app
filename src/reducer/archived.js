@@ -1,12 +1,24 @@
 import axios from "axios";
-export const AddArchived = (state, notes) => {
-  const token = localStorage.getItem("token");
-  const { data, tagArray } = state;
-  const { _id, tag } = notes;
-  (async (id, notes) => {
+import {
+  notifyError,
+  notifyMessage,
+} from "../utility/notification/notifcation";
+const token = localStorage.getItem("token");
+
+export const AddArchived = (state, action) => {
+  return { ...state, archived: [...action.payload] };
+};
+
+export const UpdateArchived = (state, action) => {
+  const { notesData, archivedData } = action.payload;
+  return { ...state, archived: [...archivedData], notes: [...notesData] };
+};
+
+export const AddNotesToArchived = (notes, dispatch, id) => {
+  (async () => {
     try {
       const response = await axios.post(
-        `/api/notes/archives/:${id}`,
+        `/api/notes/archives/${id}`,
         { note: notes },
         {
           headers: {
@@ -14,105 +26,61 @@ export const AddArchived = (state, notes) => {
           },
         }
       );
-    } catch (error) {
-      console.log(error);
-    }
-  })(_id, notes);
-  (async (id) => {
-    try {
-      const response = await axios.delete(`/api/notes/:${id}`, {
-        headers: {
-          authorization: token,
+      notifyMessage("Add to Archived");
+      dispatch({
+        type: "UPDATE_ARCHIVED",
+        payload: {
+          archivedData: response.data.archives,
+          notesData: response.data.notes,
         },
       });
     } catch (error) {
       console.log(error);
+      notifyError("ERROR!");
     }
-  })(_id);
-  return {
-    ...state,
-    data: data.filter((notes) => notes._id !== _id),
-    archived: [...state.archived, { ...notes }],
-    tagArray:
-      data.reduce((acc, curr) => {
-        curr.tag === tag ? (acc = acc + 1) : acc;
-        return acc;
-      }, 0) > 1
-        ? [...tagArray]
-        : tagArray.filter((note) => note.tag !== tag),
-  };
+  })();
 };
 
-export const RemoveArchived = (state, payload) => {
-  const { _id } = payload;
-  const { archived, trash } = state;
-  const token = localStorage.getItem("token");
-  (async (id) => {
+export const DeleteArchive = (dispatch, id) => {
+  (async () => {
     try {
-      const response = await axios.delete(`/api/archives/delete/:${id}`, {
+      const response = await axios.delete(`/api/archives/delete/${id}`, {
         headers: {
           authorization: token,
         },
       });
+      notifyMessage("Remove From Archived");
+      dispatch({ type: "ADD_ARCHIVED", payload: response.data.archives });
     } catch (error) {
       console.log(error);
+      notifyError("ERROR!");
     }
-  })(_id);
-  return {
-    ...state,
-    archived: archived.filter((notes) => notes._id !== _id),
-    trash: [...trash, payload],
-  };
+  })();
 };
 
-export const ToggleDisableArchived = (state, payload) => {
-  const { archived } = state;
-  const { _id } = payload;
-  return {
-    ...state,
-    archived: archived.map((notes) =>
-      notes._id === _id ? { ...notes, disabled: false } : notes
-    ),
-  };
-};
-
-export const EditArchived = (state, payload) => {
-  const { title, _id, notes } = payload;
-  const { archived } = state;
-  return {
-    ...state,
-    archived: archived.map((notesData) =>
-      notesData._id === _id
-        ? { ...notesData, title: title, notes: notes }
-        : notesData
-    ),
-  };
-};
-
-export const SaveArchived = (state, payload) => {
-  const { _id } = payload;
-  const { archived } = state;
-  const token = localStorage.getItem("token");
-  const notesBackend = archived.find((notes) => notes._id === _id);
-  (async (id, notes) => {
+export const RestoreArchive = (dispatch, id) => {
+  (async () => {
     try {
       const response = await axios.post(
-        `/api/notes/archives/:${id}`,
-        { note: notes },
+        `/api/archives/restore/${id}`,
+        {},
         {
           headers: {
             authorization: token,
           },
         }
       );
+      notifyMessage("RESTORE NOTES");
+      dispatch({
+        type: "UPDATE_ARCHIVED",
+        payload: {
+          archivedData: response.data.archives,
+          notesData: response.data.notes,
+        },
+      });
     } catch (error) {
       console.log(error);
+      notifyError("ERROR!");
     }
-  })(_id, notesBackend);
-  return {
-    ...state,
-    archived: archived.map((notes) =>
-      notes._id === _id ? { ...notes, disabled: true } : notes
-    ),
-  };
+  })();
 };

@@ -2,11 +2,20 @@ import { useData } from "../../context/data";
 import parse from "html-react-parser";
 import { Input } from "..";
 import { DeleteNotes } from "../../reducer/notes";
+import { AddNotesToArchived } from "../../reducer/archived";
+import { notifyMessage } from "../../utility/notification/notifcation";
 export const Notes = ({ prop }) => {
-  const { dispatch } = useData();
+  const { dispatch, archived } = useData();
   const { notesData } = prop;
   const { _id, title, notes, disabled, colors, tag, content, priorty } =
     notesData;
+
+  const ArchivedHandler = () => {
+    return !archived.find((archivedData) => archivedData._id === _id)
+      ? AddNotesToArchived(notesData, dispatch, _id)
+      : notifyMessage("Already in archived");
+  };
+
   return !disabled ? (
     <Input
       prop={{
@@ -36,7 +45,7 @@ export const Notes = ({ prop }) => {
         }
       />
       <hr />
-      <div>{parse(notes)}</div>
+      <div className="notes-container">{parse(notes)}</div>
       {tag.length > 0 && <h3 className="tag-container">{tag}</h3>}
       <hr />
       <h1>{disabled}</h1>
@@ -51,15 +60,13 @@ export const Notes = ({ prop }) => {
         </button>
         <button
           className="button button-secondary"
-          onClick={() => DeleteNotes(dispatch, _id)}
+          onClick={() => DeleteNotes(dispatch, _id, notesData)}
         >
           REMOVE
         </button>
         <button
           className="button button-secondary"
-          onClick={() =>
-            dispatch({ type: "ADD_TO_ARCHIVED", payload: notesData })
-          }
+          onClick={() => ArchivedHandler()}
         >
           Archived
         </button>

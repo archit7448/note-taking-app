@@ -20,6 +20,7 @@ const DataProvider = ({ children }) => {
       }
     })();
   }, []);
+
   useEffect(() => {
     token !== null &&
       (async () => {
@@ -45,10 +46,10 @@ const DataProvider = ({ children }) => {
               authorization: token,
             },
           });
-          // dispatch({
-          //   type: "ADD_INTIAL_ARCHIVES",
-          //   payload: response.data.archives,
-          // });
+          dispatch({
+            type: "ADD_ARCHIVED",
+            payload: response.data.archives,
+          });
         } catch (error) {
           console.log(error);
         }
@@ -63,6 +64,8 @@ const DataProvider = ({ children }) => {
         dispatch,
         colorArray: state.colorArray,
         quill: state.quill,
+        archived: state.archived,
+        trash: state.trash,
       }}
     >
       {children}
