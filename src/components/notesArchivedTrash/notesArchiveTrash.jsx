@@ -1,9 +1,9 @@
 import parse from "html-react-parser";
+import { FaTrashRestore, FaTrash } from "react-icons/fa";
 
 export const NotesArchive = ({ prop }) => {
-  const { notesData, RemoveHandler, RestoreHandler, Restore } = prop;
-  const { _id, title, notes, disabled, colors, tag, content, priorty } =
-    notesData;
+  const { notesData, removeHandler, restoreHandler } = prop;
+  const { _id, title, notes, disabled, colors, priorty, tag } = notesData;
 
   return (
     <div className={`CardDesign ${colors}`} key={_id}>
@@ -14,26 +14,24 @@ export const NotesArchive = ({ prop }) => {
         disabled={disabled}
         className={colors}
       />
-      <hr />
       <div>{parse(notes)}</div>
-      <div className="button-container">
+      <div className="tag-parent">
         {tag.length > 0 && <h3 className="tag-container">{tag}</h3>}
         {priorty.length > 0 && <h3 className="tag-container">{priorty}</h3>}
       </div>
-      <hr />
       <h1>{disabled}</h1>
       <div className="button-container">
         <button
-          className="button button-primary"
-          onClick={() => RestoreHandler(_id)}
+          className={`button button-secondary border-0px ${colors}`}
+          onClick={() => restoreHandler(_id)}
         >
-          RESTORE
+          <FaTrashRestore />
         </button>
         <button
-          className="button button-secondary"
-          onClick={() => RemoveHandler(_id)}
+          className={`button button-secondary border-0px ${colors}`}
+          onClick={() => removeHandler(_id)}
         >
-          REMOVE
+          <FaTrash />
         </button>
       </div>
     </div>

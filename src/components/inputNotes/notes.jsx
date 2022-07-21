@@ -1,21 +1,27 @@
 import { useData } from "../../context/data";
 import parse from "html-react-parser";
 import { Input } from "..";
-import { DeleteNotes } from "../../reducer/notes";
-import { AddNotesToArchived } from "../../reducer/archived";
+import { addNotesToArchived } from "../../reducer/archived";
+import { FaTrash } from "react-icons/fa";
+import { IoMdArchive } from "react-icons/io";
+import { MdModeEditOutline } from "react-icons/md";
 import { notifyMessage } from "../../utility/notification/notifcation";
 export const Notes = ({ prop }) => {
-  const { dispatch, archived } = useData();
+  const { dispatch } = useData();
   const { notesData } = prop;
   const { _id, title, notes, disabled, colors, tag, content, priorty } =
     notesData;
 
-  const ArchivedHandler = () => {
-    return !archived.find((archivedData) => archivedData._id === _id)
-      ? AddNotesToArchived(notesData, dispatch, _id)
-      : notifyMessage("Already in archived");
+  const archivedHandler = () => {
+    addNotesToArchived(notesData, dispatch, _id);
   };
-
+  const deleteHandler = () => {
+    notifyMessage("NOTES TRASHED!");
+    dispatch({
+      type: "DELETE_NOTES",
+      payload: notesData,
+    });
+  };
   return !disabled ? (
     <Input
       prop={{
@@ -44,31 +50,32 @@ export const Notes = ({ prop }) => {
           })
         }
       />
-      <hr />
-      <div className="notes-container">{parse(notes)}</div>
-      {tag.length > 0 && <h3 className="tag-container">{tag}</h3>}
-      <hr />
+      <div>{parse(notes)}</div>
+      <div className="tag-parent">
+        {tag.length > 0 && <h3 className="tag-container">{tag}</h3>}
+        {priorty.length > 0 && <h3 className="tag-container">{priorty}</h3>}
+      </div>
       <h1>{disabled}</h1>
       <div className="button-container">
         <button
-          className="button button-primary"
+          className={`button button-secondary ${colors} border-0px`}
           onClick={() =>
             dispatch({ type: "TOGGLE_DISABLED", payload: { _id } })
           }
         >
-          EDIT
+          <MdModeEditOutline />
         </button>
         <button
-          className="button button-secondary"
-          onClick={() => DeleteNotes(dispatch, _id, notesData)}
+          className={`button button-secondary ${colors} border-0px`}
+          onClick={() => deleteHandler()}
         >
-          REMOVE
+          <FaTrash />
         </button>
         <button
-          className="button button-secondary"
-          onClick={() => ArchivedHandler()}
+          className={`button button-secondary ${colors} border-0px`}
+          onClick={() => archivedHandler()}
         >
-          Archived
+          <IoMdArchive />
         </button>
       </div>
     </div>

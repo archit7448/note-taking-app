@@ -3,14 +3,22 @@ import { useEffect } from "react";
 import "./editor.css";
 import { useData } from "../../context/data";
 const modules = {
-  toolbar: [
-    ["bold", "italic", "underline", "strike", "heading"],
-    [{ align: [] }],
-    [{ list: "ordered" }, { list: "bullet" }],
-    [{ indent: "-1" }, { indent: "+1" }],
-    [{ size: ["small", false, "large", "huge"] }],
-    [{ header: [1, 2, 3, 4, 5, 6, false] }],
-  ],
+  toolbar: {
+    containers: [
+      ["bold", "italic", "underline", "strike", "heading"],
+      [{ align: [] }],
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ indent: "-1" }, { indent: "+1" }],
+      [{ size: ["small", false, "large", "huge"] }],
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+      ["customControl"],
+    ],
+    handlers: {
+      customControl: () => {
+        console.log("customControl was clicked");
+      },
+    },
+  },
 };
 
 export const formats = [
@@ -28,7 +36,7 @@ export const formats = [
 export const Editor = ({ prop }) => {
   const { quill, quillRef } = useQuill({ modules, formats });
   const { dispatch } = useData();
-  const { contentPassed, disabledPassed} = prop;
+  const { contentPassed, disabledPassed } = prop;
   useEffect(() => {
     if (quill && disabledPassed) {
       quill.setContents(contentPassed);

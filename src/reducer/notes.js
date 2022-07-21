@@ -1,11 +1,10 @@
 import axios from "axios";
-const token = localStorage.getItem("token");
 
-export const AddNotes = (state, action) => {
+export const addNotes = (state, action) => {
   return { ...state, notes: [...action.payload], notesData: {} };
 };
 
-export const AddNotesToDataBase = (notes, dispatch) => {
+export const addNotesToDatabase = (notes, dispatch) => {
   (async () => {
     try {
       const response = await axios.post(
@@ -13,7 +12,7 @@ export const AddNotesToDataBase = (notes, dispatch) => {
         { note: notes },
         {
           headers: {
-            authorization: token,
+            authorization: localStorage.getItem("token"),
           },
         }
       );
@@ -24,7 +23,7 @@ export const AddNotesToDataBase = (notes, dispatch) => {
   })();
 };
 
-export const ToggleEdit = (state, action) => {
+export const toggleEdit = (state, action) => {
   return {
     ...state,
     notes: state.notes.map((notesEach) =>
@@ -35,7 +34,7 @@ export const ToggleEdit = (state, action) => {
   };
 };
 
-export const UpdateDataBase = (notes, dispatch, id) => {
+export const updateDatabase = (notes, dispatch, id) => {
   (async () => {
     try {
       const response = await axios.post(
@@ -43,7 +42,7 @@ export const UpdateDataBase = (notes, dispatch, id) => {
         { note: notes },
         {
           headers: {
-            authorization: token,
+            authorization: localStorage.getItem("token"),
           },
         }
       );
@@ -54,17 +53,17 @@ export const UpdateDataBase = (notes, dispatch, id) => {
   })();
 };
 
-export const DeleteNotes = (dispatch, id, notes) => {
+export const deleteNotes = (dispatch, id) => {
   (async () => {
     try {
       const response = await axios.delete(`/api/notes/${id}`, {
         headers: {
-          authorization: token,
+          authorization: localStorage.getItem("token"),
         },
       });
       dispatch({
-        type: "ADD_NOTES_TRASH",
-        payload: { notes: response.data.notes, trashLoad: notes },
+        type: "ADD_NOTES",
+        payload: response.data.notes,
       });
     } catch (error) {
       console.log(error);

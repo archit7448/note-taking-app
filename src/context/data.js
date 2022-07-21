@@ -7,19 +7,6 @@ const DataContext = createContext(null);
 const DataProvider = ({ children }) => {
   const [state, dispatch] = useReducer(ReducerFunc, IntialState);
   const token = localStorage.getItem("token");
-  useEffect(() => {
-    (async () => {
-      try {
-        const response = await axios.post("/api/auth/login", {
-          email: "adarshbalika@gmail.com",
-          password: "adarshBalika123",
-        });
-        localStorage.setItem("token", response.data.encodedToken);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, []);
 
   useEffect(() => {
     token !== null &&
@@ -66,6 +53,10 @@ const DataProvider = ({ children }) => {
         quill: state.quill,
         archived: state.archived,
         trash: state.trash,
+        colorFilter: state.colorFilter,
+        tagFilter: state.tagFilter,
+        priortyFilter: state.priortyFilter,
+        deleteFilter: state.deleteFilter,
       }}
     >
       {children}

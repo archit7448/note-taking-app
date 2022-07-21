@@ -1,0 +1,8 @@
+export { HomePage } from "./home/home";
+export { ArchivedPage } from "./archived/archived";
+export { TrashPage } from "./trash/trash";
+export { SignIn } from "./signIn/signIn";
+export { SignUp } from "./signUp/signUp";
+export { LabelPage } from "./label/label";
+export { PrivateRoute } from "./auth/PrivateRoute";
+export { RestrictedRoute } from "./auth/RestrictedRoute";

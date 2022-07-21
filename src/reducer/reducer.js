@@ -1,23 +1,54 @@
-import { AddNotes, ToggleEdit } from "./notes";
-import { AddArchived, UpdateArchived } from "./archived";
-import { AddTrash, RemoveTrash, RestoreNotes, RestoreTrash } from "./trash";
-const AddColors = (state, action) => {
+import { addNotes, toggleEdit } from "./notes";
+import { addArchived, updateArchived } from "./archived";
+import {
+  updateTag,
+  updateColor,
+  updatePriorty,
+  updateDelete,
+  restoreNotes,
+} from "./filter";
+const addColors = (state, action) => {
   return { ...state, colors: action.payload };
 };
 
-const AddNotesData = (state, action) => {
+const addNotesData = (state, action) => {
   return { ...state, quill: action.payload };
 };
+
+const resetFilter = (state) => {
+  return {
+    ...state,
+    tagFilter: {
+      code: false,
+      exercise: false,
+      health: false,
+      fun: false,
+    },
+    priortyFilter: "",
+    colorFilter: {
+      "color-one": false,
+      "color-two": false,
+      "color-three": false,
+      "color-four": false,
+      "color-five": false,
+      "color-six": false,
+    },
+  };
+};
+
 const reducer = {
-  ADD_NOTES: AddNotes,
-  ADD_COLOR: AddColors,
-  ADD_NOTES_DATA: AddNotesData,
-  TOGGLE_DISABLED: ToggleEdit,
-  ADD_ARCHIVED: AddArchived,
-  UPDATE_ARCHIVED: UpdateArchived,
-  ADD_NOTES_TRASH: AddTrash,
-  REMOVE_TRASH: RemoveTrash,
-  RESTORE_NOTES: RestoreNotes,
+  ADD_NOTES: addNotes,
+  ADD_COLOR: addColors,
+  ADD_NOTES_DATA: addNotesData,
+  TOGGLE_DISABLED: toggleEdit,
+  ADD_ARCHIVED: addArchived,
+  UPDATE_ARCHIVED: updateArchived,
+  UPDATE_TAG: updateTag,
+  UPDATE_PRIORTY: updatePriorty,
+  UPDATE_COLOR_FILTER: updateColor,
+  DELETE_NOTES: updateDelete,
+  RESTORE_NOTES: restoreNotes,
+  RESET_FILTER: resetFilter,
 };
 
 export const ReducerFunc = (state, action) => {
@@ -26,7 +57,7 @@ export const ReducerFunc = (state, action) => {
 
 export const IntialState = {
   notes: [],
-  colors: "",
+  colors: "color-two",
   colorArray: [
     "color-one",
     "color-two",
@@ -38,4 +69,20 @@ export const IntialState = {
   quill: {},
   archived: [],
   trash: [],
+  tagFilter: {
+    code: false,
+    exercise: false,
+    health: false,
+    fun: false,
+  },
+  priortyFilter: "",
+  colorFilter: {
+    "color-one": false,
+    "color-two": false,
+    "color-three": false,
+    "color-four": false,
+    "color-five": false,
+    "color-six": false,
+  },
+  deleteFilter: [],
 };

@@ -1,22 +1,30 @@
 import "./App.css";
-import { HomePage } from "./Pages/HomePage/Homepage";
-import { Route, Routes } from "react-router-dom";
 import "quill/dist/quill.snow.css";
-import { ARCHIVED } from "./Pages/archived/archived";
-import { TrashPage } from "./Pages/Trash/TrashPage";
-import { SignIn } from "./Pages/SignIn/signIn";
-import { LabelPage } from "./Pages/labelPage/labelPage";
 import "react-toastify/dist/ReactToastify.css";
+import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-
+import {
+  ArchivedPage,
+  HomePage,
+  SignIn,
+  SignUp,
+  TrashPage,
+  PrivateRoute,
+  RestrictedRoute,
+} from "./Pages/index";
 function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/archived" element={<ARCHIVED />} />
-        <Route path="/trash" element={<TrashPage />} />
-        {/* <Route path="/label" element={<LabelPage />} /> */}
+        <Route element={<PrivateRoute />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/archived" element={<ArchivedPage />} />
+          <Route path="/trash" element={<TrashPage />} />
+        </Route>
+        <Route element={<RestrictedRoute />}>
+          <Route path="/signIn" element={<SignIn />} />
+          <Route path="/signUp" element={<SignUp />} />
+        </Route>
       </Routes>
       <ToastContainer />
     </div>

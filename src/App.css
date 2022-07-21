@@ -1,10 +1,5 @@
 @import url("https://mindify-ui.netlify.app/components/library.css");
-.App {
-  text-align: center;
+@import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
+:root {
+  --color-icon-background: #f2f3f5;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
