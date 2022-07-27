@@ -4,7 +4,7 @@
   
 ### You can add the notes , with tags , colors and delete feature 
 
-# [MindifyNotes](https://mindifynotes.netlify.app/)
+# [MindifyNotes](https://mindify-notes.netlify.app/)
 
 </div>
 
