@@ -35,7 +35,7 @@ export const SignUp = () => {
       SignUpHandler({
         firstName: firstName,
         lastName: lastName,
-        username: username,
+        email: email,
         password: password,
       });
     }
@@ -63,11 +63,11 @@ export const SignUp = () => {
             onChange={(event) => setLastName(event.target.value)}
           />
         </div>
-        <h3 className="login-small-heading">Username</h3>
+        <h3 className="login-small-heading">E-Mail</h3>
         <input
           type="text"
           value={email}
-          placeholder="Enter Username"
+          placeholder="Enter E-MAIL"
           onChange={(event) => setEmail(event.target.value)}
         />
         <h3 className="login-small-heading">Password</h3>
